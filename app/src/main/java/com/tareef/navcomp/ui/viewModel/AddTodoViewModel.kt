@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.tareef.navcomp.MyApplication
+import com.tareef.navcomp.data.model.Color
 import com.tareef.navcomp.data.model.Task
 import com.tareef.navcomp.repository.TaskRepository
 import com.tareef.navcomp.ui.fragments.AddTodoFragment
@@ -18,11 +19,12 @@ class AddTodoViewModel(
     val desc: MutableLiveData<String> = MutableLiveData()
     val finished: MutableLiveData<Boolean> = MutableLiveData( false)
     val error: MutableLiveData<String> = MutableLiveData("")
+    val color: MutableLiveData<Color> = MutableLiveData()
 
     fun addTask(){
-        if(title.value != null || desc.value != null){
+        if(title.value != null || desc.value != null && color.value != null){
             repo.addTask(
-                Task(title = title.value!!, desc = desc.value!!)
+                Task(title = title.value!!, desc = desc.value!!, color = color.value!!)
             )
             finished.value = true
         } else{
@@ -30,6 +32,17 @@ class AddTodoViewModel(
         }
     }
 
+fun onRedClicked(){
+    color.value = Color.RED
+}
+
+    fun onGreenClicked(){
+        color.value = Color.GREEN
+    }
+
+    fun onBlueClicked(){
+        color.value = Color.BLUE
+    }
     companion object{
         val Factory:ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")

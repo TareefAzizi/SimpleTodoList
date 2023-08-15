@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cvTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:background="#EAEAEA"
+        app:cardCornerRadius="2dp"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/llTask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:backgroundTint="@color/blue"
+            android:background="?android:attr/selectableItemBackground">
 
             <TextView
                 android:id="@+id/tvTitle"

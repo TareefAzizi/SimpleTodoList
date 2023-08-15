@@ -11,12 +11,42 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_home_to_addTodo"
+            android:id="@+id/action_homeFragment_to_addTodoFragment"
+            app:enterAnim="@anim/slide_from_bottom"
+            app:popEnterAnim="@anim/slide_to_top"
+            app:popExitAnim="@anim/slide_to_bottom"
             app:destination="@id/addTodoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_showTaskFragment"
+            app:destination="@id/showTaskFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/addTodoFragment"
         android:name="com.tareef.navcomp.ui.fragments.AddTodoFragment"
         android:label="fragment_add_todo"
         tools:layout="@layout/fragment_add_todo" />
+
+    <fragment
+        android:id="@+id/updateTodoFragment"
+        android:name="com.tareef.navcomp.ui.fragments.UpdateTodoFragment"
+        android:label="UpdateTodoFragment"
+        tools:layout="@layout/fragment_update_todo">
+        <argument
+            android:name="task_id"
+            app:argType="integer"/>
+    </fragment>
+    <fragment
+        android:id="@+id/showTaskFragment"
+        android:name="com.tareef.navcomp.ui.fragments.ShowTaskFragment"
+        android:label="ShowTaskFragment"
+        tools:layout="@layout/fragment_show_task">
+        <argument
+            android:name="task_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_showTaskFragment_to_updateTodoFragment"
+            app:destination="@id/updateTodoFragment" />
+
+    </fragment>
 </navigation>

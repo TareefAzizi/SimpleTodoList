@@ -5,4 +5,6 @@
     <color name="gray">#AEAEAE</color>
     <color name = "app_bg">#EDF1F2</color>
     <color name = "red">#BC3434</color>
+    <color name = "blue">#1D17C3</color>
+    <color name = "green">#41E315</color>
 </resources>

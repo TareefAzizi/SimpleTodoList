@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,8 +10,7 @@
             type="com.tareef.navcomp.ui.viewModel.AddTodoViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -24,6 +24,9 @@
             android:layout_height="wrap_content"
             android:autofillHints="name"
             android:hint="Enter title"
+            android:padding="10dp"
+            android:background="@android:color/white"
+            android:elevation="4dp"
             android:text="@={viewModel.title}" />
 
         <EditText
@@ -32,16 +35,61 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="Enter Desc"
+            android:padding="10dp"
+            android:background="@android:color/white"
+            android:elevation="4dp"
             android:text="@={viewModel.desc}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:gravity="center"
+            android:layout_marginVertical="32dp">
+
+            <View
+                android:id="@+id/vRed"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:focusable="true"
+                android:onClick="@{() -> viewModel.onRedClicked()}"
+                android:background="@android:color/holo_red_light"
+                android:layout_marginStart="20dp"
+                android:elevation="4dp"/>
+
+            <View
+                android:id="@+id/vGreen"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:focusable="true"
+                android:onClick="@{() -> viewModel.onGreenClicked()}"
+                android:background="@android:color/holo_green_light"
+                android:layout_marginStart="20dp"
+                android:elevation="4dp"/>
+
+            <View
+                android:id="@+id/vBlue"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:focusable="true"
+                android:onClick="@{() -> viewModel.onBlueClicked()}"
+                android:background="@android:color/holo_blue_light"
+                android:layout_marginStart="20dp"
+                android:elevation="4dp"/>
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="32dp"
             android:onClick="@{()-> viewModel.addTask()}"
             android:text="Add"
-            app:cornerRadius="16dp" />
-
+            android:textColor="@android:color/white"
+            app:cornerRadius="16dp"
+            android:backgroundTint="@android:color/holo_blue_dark" />
     </LinearLayout>
+
 </layout>

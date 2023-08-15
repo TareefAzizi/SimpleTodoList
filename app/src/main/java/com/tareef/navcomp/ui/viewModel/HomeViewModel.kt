@@ -13,7 +13,7 @@ import com.tareef.navcomp.data.model.Task
 import com.tareef.navcomp.repository.TaskRepository
 
 class HomeViewModel(   
-   private val repo: TaskRepository
+   private val repository: TaskRepository
 ): ViewModel() {
     val tasks: MutableLiveData<List<Task>> = MutableLiveData()
     val isEmpty:MutableLiveData<Boolean> = MutableLiveData(false)
@@ -22,32 +22,24 @@ class HomeViewModel(
     }
 
     fun fetchTasks(){
-        val res = repo.getTask()
+        val res = repository.getTasks()
         tasks.value= res
         isEmpty.value = res.isEmpty()
     }
 
     fun deleteTask(task:Task){
-        repo.deleteTask(task)
+        repository.deleteTask(task.id)
         fetchTasks()
     }
 
 
     companion object {
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>,
-                extras: CreationExtras
-            ): T {
-                // Get the Application object from extras
-                val application = checkNotNull(extras[APPLICATION_KEY])
-                // Create a SavedStateHandle for this ViewModel from extras
-                val savedStateHandle = extras.createSavedStateHandle()
-
-                return HomeViewModel(
-                    (application as MyApplication).repo,
-                ) as T
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val myRepository = (this[APPLICATION_KEY] as MyApplication).repo
+                HomeViewModel(
+                    myRepository,
+                )
             }
         }
     }

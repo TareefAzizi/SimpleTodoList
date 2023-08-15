@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tareef.navcomp.databinding.FragmentHomeBinding
 import com.tareef.navcomp.ui.adapter.TaskAdapter
@@ -17,6 +19,7 @@ import com.tareef.navcomp.ui.viewModel.HomeViewModel
 class HomeFragment : Fragment() {
     private lateinit var binding : FragmentHomeBinding
     private lateinit var adapter: TaskAdapter
+    private lateinit var navController: NavController
     private val viewModel: HomeViewModel by viewModels{
         HomeViewModel.Factory
     }
@@ -33,7 +36,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navigationController = NavHostFragment.findNavController(this)
+        navController = NavHostFragment.findNavController(this)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -45,8 +48,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.fabAdd.setOnClickListener{
-            val action = HomeFragmentDirections.actionHomeToAddTodo()
-            navigationController.navigate(action)
+            val action = HomeFragmentDirections.actionHomeFragmentToAddTodoFragment()
+            navController.navigate(action)
         }
 
         setupAdapter()
@@ -61,9 +64,15 @@ class HomeFragment : Fragment() {
 
 
     fun setupAdapter(){
-        adapter  = TaskAdapter(emptyList()){}
+        adapter  = TaskAdapter(emptyList(),{
+            val action = HomeFragmentDirections.actionHomeFragmentToShowTaskFragment(it.id)
+            navController.navigate(action)
+                                           },
+            {
+                viewModel.deleteTask((it))
+            })
 
-        val layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvTodos.adapter = adapter
         binding.rvTodos.layoutManager = layoutManager
 

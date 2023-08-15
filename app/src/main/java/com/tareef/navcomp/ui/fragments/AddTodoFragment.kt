@@ -1,5 +1,7 @@
 package com.tareef.navcomp.ui.fragments
 
+import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
 import com.tareef.navcomp.R
+import com.tareef.navcomp.data.model.Color
 import com.tareef.navcomp.databinding.FragmentAddTodoBinding
 import com.tareef.navcomp.ui.viewModel.AddTodoViewModel
 
@@ -42,6 +45,7 @@ class AddTodoFragment : Fragment() {
                 navigateBack()
                 viewModel.finished.value = false
             }
+
             viewModel.error.observe(viewLifecycleOwner){
                 if(it.isNotEmpty()){
                     val snackbar = Snackbar.make(
@@ -59,8 +63,33 @@ class AddTodoFragment : Fragment() {
                     snackbar.show()
                 }
             }
+
+            viewModel.color.observe(viewLifecycleOwner){
+                clearSelected()
+                val bgDrawable = GradientDrawable().apply{
+                    shape = GradientDrawable.RECTANGLE
+                    setColor(ContextCompat.getColor(requireContext(), it.rgb))
+                    setStroke(8, ContextCompat.getColor(requireContext(), R.color.black))
+                }
+
+                when(it){
+                    Color.BLUE -> binding.vBlue
+                    Color.GREEN -> binding.vGreen
+                    else -> binding.vRed
+                }.background = bgDrawable
+            }
         }
     }
+
+    private fun clearSelected(){
+        binding.run{
+            vRed.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.red))
+            vBlue.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.blue))
+            vGreen.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.green))
+        }
+    }
+
+
     fun navigateBack(){
         val bundle =  Bundle()
         bundle.putBoolean("refresh", true)

@@ -1,13 +1,16 @@
 package com.tareef.navcomp.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tareef.navcomp.databinding.ItemLayoutTaskBinding
 import com.tareef.navcomp.data.model.Task
 
 class TaskAdapter(
     var items: List<Task>,
+    val onItemClicked: (Task) -> Unit,
     val onDeleteClicked:(Task) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -28,6 +31,16 @@ class TaskAdapter(
                     onDeleteClicked(item)
                 }
 
+                llTask.setOnClickListener{
+                    onItemClicked(item)
+                }
+
+                cvTask.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        root.context,
+                        item.color.rgb
+                    )
+                )
             }
         }
     }
